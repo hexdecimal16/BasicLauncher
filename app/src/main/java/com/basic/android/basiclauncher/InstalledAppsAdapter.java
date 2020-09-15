@@ -15,10 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -49,13 +52,20 @@ public class InstalledAppsAdapter extends RecyclerView.Adapter<InstalledAppsAdap
         if (str != null) {
             String applicationLabelByPackageName = appsManager.getApplicationLabelByPackageName(str);
             Drawable appIconByPackageName = appsManager.getAppIconByPackageName(str);
+            if (getBitmapFromDrawable(appIconByPackageName).getPixel(0, 0) == Color.TRANSPARENT) {
+                appsViewHolder.mImageViewIcon.setBackgroundColor(ContextCompat.getColor(mContext, R.color.iconBackGray));
+            }
             Palette.Swatch vibrantSwatch = Palette.from(getBitmapFromDrawable(appIconByPackageName)).generate().getVibrantSwatch();
             if (vibrantSwatch != null) {
                 vibrantSwatch.getRgb();
             }
             Log.d("this is my color", String.valueOf(-16776961));
             appsViewHolder.mTextViewLabel.setText(applicationLabelByPackageName);
-            ((RequestBuilder) Glide.with(this.mContext).load(appIconByPackageName).fitCenter()).into(appsViewHolder.mImageViewIcon);
+            Glide.with(this.mContext)
+                    .load(appIconByPackageName)
+                    .fitCenter()
+                    .transform(new RoundedCorners(10))
+                    .into(appsViewHolder.mImageViewIcon);
             appsViewHolder.mImageViewIcon.setContentDescription(applicationLabelByPackageName);
             appsViewHolder.mCardView.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("WrongConstant")
@@ -73,7 +83,6 @@ public class InstalledAppsAdapter extends RecyclerView.Adapter<InstalledAppsAdap
                 @Override
                 public void onFocusChange(View view, boolean b) {
                     if( b) {
-                        Log.i("onFocusChange", "focused: " + b);
                         Palette.from(getBitmapFromDrawable(appsManager.getAppIconByPackageName(str))).generate(new Palette.PaletteAsyncListener() {
                             public void onGenerated(Palette p) {
                                 int color = p.getDominantColor(Color.BLACK);

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.LinearLayout;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,7 +26,7 @@ public class Home extends Activity {
     
     public InstalledAppsAdapter installedAppsAdapter;
     public RecyclerView f3910b;
-    public LinearLayout linearLayout;
+    public ConstraintLayout linearLayout;
     public Context context;
     private static NestedScrollView rootView;
 
@@ -78,7 +79,7 @@ public class Home extends Activity {
         } else {
 
         }
-        this.linearLayout = findViewById(R.id.favorite_contain);
+        this.linearLayout = findViewById(R.id.row_titleFavorite);
     }
 
     public boolean onKeyUp(int i, KeyEvent keyEvent) {

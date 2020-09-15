@@ -8,8 +8,8 @@ android {
         applicationId "com.basic.android.basiclauncher"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 8
-        versionName "4.4"
+        versionCode 9
+        versionName "4.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

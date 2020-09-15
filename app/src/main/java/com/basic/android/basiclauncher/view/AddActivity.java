@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.KeyEvent;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.basic.android.basiclauncher.Home;
@@ -80,7 +81,7 @@ public class AddActivity extends Activity {
             arrayList5.add(it.next());
         }
         this.addAppsAdapter = new AddAppsAdapter(this, arrayList5);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2)  );
         recyclerView.setAdapter(this.addAppsAdapter);
         this.linearZoom = findViewById(R.id.linearLayout);
     }

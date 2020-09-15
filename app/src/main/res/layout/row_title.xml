@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/row_title"
+    android:nextFocusLeft="@id/row_title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/search_orb_margin_start"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/cardViewRowIcon"
+        android:layout_width="@dimen/app_banner_width"
+        android:layout_height="@dimen/app_banner_height"
+        android:src="@drawable/apps_view_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Title"
+        android:textSize="@dimen/text_size_h2"
+        android:textColor="@color/reference_white_60"
+        android:ellipsize="marquee"
+        android:layout_gravity="center"
+        android:singleLine="true"
+        android:marqueeRepeatLimit="1"
+        android:importantForAccessibility="no"
+        android:fontFamily="@font/google_sans"
+        app:layout_constraintEnd_toEndOf="@+id/cardViewRowIcon"
+        app:layout_constraintStart_toStartOf="@+id/cardViewRowIcon"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewRowIcon" />
+
+    <TextView
+        android:id="@+id/textViewEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:visibility="gone"
+        android:text="Title"
+        android:textSize="@dimen/text_size_h2"
+        android:textColor="@color/reference_white_60"
+        android:ellipsize="marquee"
+        android:layout_gravity="center"
+        android:singleLine="true"
+        android:marqueeRepeatLimit="1"
+        android:importantForAccessibility="no"
+        android:fontFamily="@font/google_sans"
+        app:layout_constraintBottom_toBottomOf="@+id/cardViewRowIcon"
+        app:layout_constraintStart_toEndOf="@+id/cardViewRowIcon"
+        app:layout_constraintTop_toTopOf="@+id/cardViewRowIcon" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

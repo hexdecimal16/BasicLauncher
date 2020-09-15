@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.basic.android.basiclauncher.InstalledAppsAdapter;
 import com.basic.android.basiclauncher.R;
 import com.basic.android.basiclauncher.favorite.AddAppsAdapter;
 
@@ -19,7 +20,7 @@ import java.util.Scanner;
 public class Row extends RecyclerView {
 
     public static Context context;
-    public static AddAppsAdapter addAppsAdapter;
+    public static InstalledAppsAdapter addAppsAdapter;
     public static ArrayList<String> list = new ArrayList<>();
     public static String packages = "packages";
     public static RecyclerView recyclerView;
@@ -62,7 +63,7 @@ public class Row extends RecyclerView {
         } catch (FileNotFoundException e3) {
             e3.printStackTrace();
         }
-        AddAppsAdapter bVar = new AddAppsAdapter(context, list);
+        InstalledAppsAdapter bVar = new InstalledAppsAdapter(context, list);
         addAppsAdapter = bVar;
         recyclerView.setAdapter(bVar);
     }

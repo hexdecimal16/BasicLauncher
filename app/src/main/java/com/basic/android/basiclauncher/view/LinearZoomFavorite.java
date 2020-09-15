@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -15,14 +15,14 @@ import com.basic.android.basiclauncher.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class LinearZoomNew extends ConstraintLayout {
+public class LinearZoomFavorite extends ConstraintLayout {
 
     public final float zoom = getResources().getFraction(R.fraction.home_app_banner_focused_scale, 1, 1);
-    private CircleImageView imageView;
+    private ImageView imageView;
     private TextView bottom;
     private TextView end;
 
-    public LinearZoomNew(Context context, AttributeSet attributeSet) {
+    public LinearZoomFavorite(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
     }
 
@@ -33,9 +33,9 @@ public class LinearZoomNew extends ConstraintLayout {
     }
 
     private void init() {
-        imageView = findViewById(R.id.cardViewRowIcon);
-        bottom = findViewById(R.id.textViewBottom);
-        end = findViewById(R.id.textViewEnd);
+        imageView = findViewById(R.id.cardViewRowIconFavorite);
+        bottom = findViewById(R.id.textViewBottomFavorite);
+        end = findViewById(R.id.textViewEndFavorite);
         Drawable drawable = this.getBackground();
         setBackground(null);
         imageView.setBackground(drawable);

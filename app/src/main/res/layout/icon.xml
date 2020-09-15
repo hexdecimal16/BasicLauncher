@@ -19,7 +19,6 @@
         android:stateListAnimator="@animator/animator">
         <ImageView
             android:id="@+id/image_view"
-            android:background="@color/iconBackGray"
             android:layout_width="115dp"
             android:layout_height="65dp"
             app:layout_constraintEnd_toEndOf="parent"

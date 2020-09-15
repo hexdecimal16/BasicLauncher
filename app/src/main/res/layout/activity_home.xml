@@ -59,35 +59,62 @@
                 android:layout_height="110dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="@dimen/app_row_view_margin_bottom">
-                <com.basic.android.basiclauncher.view.LinearZoom
-                    android:id="@+id/apps"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:focusable="true"
-                    android:nextFocusLeft="@id/apps"
+                <com.basic.android.basiclauncher.view.LinearZoomNew
+                    android:id="@+id/row_title"
+                    android:nextFocusLeft="@id/row_title"
                     android:layout_width="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingTop="10dp"
+                    android:focusable="true"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/search_orb_margin_start">
+
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/apps_icon"
+                        android:id="@+id/cardViewRowIcon"
                         android:layout_width="@dimen/app_banner_width"
                         android:layout_height="@dimen/app_banner_height"
-                        android:src="@drawable/apps_view_logo"/>
+                        android:src="@drawable/apps_view_logo"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <TextView
-                        android:textSize="@dimen/text_size_h2"
+                        android:id="@+id/textViewBottom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="Apps"
+                        android:textSize="18sp"
                         android:textColor="@color/reference_white_60"
                         android:ellipsize="marquee"
                         android:layout_gravity="center"
-                        android:id="@+id/apps_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Apps"
                         android:singleLine="true"
                         android:marqueeRepeatLimit="1"
                         android:importantForAccessibility="no"
                         android:fontFamily="@font/google_sans"
-                        android:textAlignment="center"/>
-                </com.basic.android.basiclauncher.view.LinearZoom>
+                        app:layout_constraintEnd_toEndOf="@+id/cardViewRowIcon"
+                        app:layout_constraintStart_toStartOf="@+id/cardViewRowIcon"
+                        app:layout_constraintTop_toBottomOf="@+id/cardViewRowIcon" />
+
+                    <TextView
+                        android:id="@+id/textViewEnd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:visibility="gone"
+                        android:text="Apps"
+                        android:textSize="18sp"
+                        android:textColor="@color/reference_white_60"
+                        android:ellipsize="marquee"
+                        android:layout_gravity="center"
+                        android:singleLine="true"
+                        android:marqueeRepeatLimit="1"
+                        android:importantForAccessibility="no"
+                        android:fontFamily="@font/google_sans"
+                        app:layout_constraintBottom_toBottomOf="@+id/cardViewRowIcon"
+                        app:layout_constraintStart_toEndOf="@+id/cardViewRowIcon"
+                        app:layout_constraintTop_toTopOf="@+id/cardViewRowIcon" />
+
+                </com.basic.android.basiclauncher.view.LinearZoomNew>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyler_view_apps"
                     android:focusable="true"
@@ -99,6 +126,7 @@
                     android:verticalSpacing="10dp"
                     android:layout_marginStart="45dp"/>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_gravity="center_vertical"
                 android:orientation="horizontal"
@@ -109,34 +137,64 @@
                 android:paddingEnd="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="@dimen/app_row_view_margin_bottom" >
-                <com.basic.android.basiclauncher.view.LinearZoom
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:id="@+id/favorite_contain"
-                    android:focusable="true"
-                    android:nextFocusLeft="@id/favorite_contain"
+
+                <com.basic.android.basiclauncher.view.LinearZoomFavorite
+                    android:id="@+id/row_titleFavorite"
+                    android:nextFocusLeft="@id/row_title"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:id="@+id/image_view_favorite_banner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/add_favorite_app"/>
-                    <TextView
-                        android:textSize="@dimen/text_size_h2"
-                        android:textColor="@color/reference_white_60"
-                        android:ellipsize="marquee"
-                        android:layout_gravity="center"
-                        android:id="@+id/add_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/add_apps_to_favotites"
-                        android:singleLine="true"
-                        android:marqueeRepeatLimit="1"
-                        android:importantForAccessibility="no"
-                        android:fontFamily="@font/google_sans"
-                        android:textAlignment="center"/>
-                </com.basic.android.basiclauncher.view.LinearZoom>
+                    android:clipToPadding="false"
+                    android:paddingTop="10dp"
+                    android:focusable="true"
+                    android:nextFocusDown="@id/row_titleFavorite"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/search_orb_margin_start">
+
+                <ImageView
+                    android:id="@+id/cardViewRowIconFavorite"
+                    android:layout_width="@dimen/app_banner_width"
+                    android:layout_height="@dimen/app_banner_height"
+                    android:src="@drawable/add_favorite_app"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textViewBottomFavorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Favorite"
+                    android:textSize="18sp"
+                    android:textColor="@color/reference_white_60"
+                    android:ellipsize="marquee"
+                    android:layout_gravity="center"
+                    android:singleLine="true"
+                    android:marqueeRepeatLimit="1"
+                    android:importantForAccessibility="no"
+                    android:fontFamily="@font/google_sans"
+                    app:layout_constraintEnd_toEndOf="@+id/cardViewRowIconFavorite"
+                    app:layout_constraintStart_toStartOf="@+id/cardViewRowIconFavorite"
+                    app:layout_constraintTop_toBottomOf="@+id/cardViewRowIconFavorite" />
+
+                <TextView
+                    android:id="@+id/textViewEndFavorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:visibility="gone"
+                    android:text="Favorite"
+                    android:textSize="18sp"
+                    android:textColor="@color/reference_white_60"
+                    android:ellipsize="marquee"
+                    android:layout_gravity="center"
+                    android:singleLine="true"
+                    android:marqueeRepeatLimit="1"
+                    android:importantForAccessibility="no"
+                    android:fontFamily="@font/google_sans"
+                    app:layout_constraintBottom_toBottomOf="@+id/cardViewRowIconFavorite"
+                    app:layout_constraintStart_toEndOf="@+id/cardViewRowIconFavorite"
+                    app:layout_constraintTop_toTopOf="@+id/cardViewRowIconFavorite" />
+
+                </com.basic.android.basiclauncher.view.LinearZoomFavorite>
 
                 <com.basic.android.basiclauncher.view.Row
                     android:id="@+id/recycler_view_add"
@@ -146,7 +204,7 @@
                     android:clipToPadding = "false"
                     android:paddingLeft="20dp"
                     android:paddingRight="50dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="-50dp"
                     android:verticalSpacing="10dp"
                     android:layout_marginStart="@dimen/channel_logo_margin_start"/>
             </LinearLayout>

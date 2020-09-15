@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +27,8 @@ import com.basic.android.basiclauncher.Home;
 import com.basic.android.basiclauncher.view.Row;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import java.util.ArrayList;
 
@@ -49,30 +52,34 @@ public class AddAppsAdapter extends RecyclerView.Adapter<AddAppsAdapter.AppsView
         final String str = this.mDataSet.get(i);
         String applicationLabelByPackageName = appsManager.getApplicationLabelByPackageName(str);
         Drawable appIconByPackageName = appsManager.getAppIconByPackageName(str);
+        if (getBitmapFromDrawable(appIconByPackageName).getPixel(0, 0) == Color.TRANSPARENT) {
+            appsViewHolder.mImageViewIcon.setBackgroundColor(ContextCompat.getColor(mContext, R.color.iconBackGray));
+        }
         Palette.Swatch vibrantSwatch = Palette.from(getBitmapFromDrawable(appIconByPackageName)).generate().getVibrantSwatch();
         if (vibrantSwatch != null) {
             vibrantSwatch.getRgb();
         }
-        ((RequestBuilder) Glide.with(this.mContext).load(appIconByPackageName).fitCenter()).into(appsViewHolder.mImageViewIcon);
+        Glide.with(this.mContext)
+                .load(appIconByPackageName)
+                .fitCenter()
+                .transform(new RoundedCorners(10))
+                .into(appsViewHolder.mImageViewIcon);
         appsViewHolder.mImageViewIcon.setContentDescription(applicationLabelByPackageName);
         appsViewHolder.mTextViewLabel.setText(applicationLabelByPackageName);
         appsViewHolder.mCardView.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("WrongConstant")
             public void onClick(View view) {
-                Intent leanbackLaunchIntentForPackage = AddAppsAdapter.this.mContext.getPackageManager().getLeanbackLaunchIntentForPackage(str);
-                if (leanbackLaunchIntentForPackage != null) {
-                    AddAppsAdapter.this.mContext.startActivity(leanbackLaunchIntentForPackage);
-                    return;
-                }
-                Context access$000 = AddAppsAdapter.this.mContext;
-                Toast.makeText(access$000, str + " Launch Error.", 0).show();
+                Row.setFavorite(str);
+                Intent intent = new Intent(AddAppsAdapter.this.mContext, Home.class);
+                intent.setFlags(603979776);
+                intent.putExtra(AddAppsAdapter.PACKAGE, str);
+                AddAppsAdapter.this.mContext.startActivity(intent);
             }
         });
         appsViewHolder.mCardView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if( b) {
-                    Log.i("onFocusChange", "focused: " + b);
                     Palette.from(getBitmapFromDrawable(appsManager.getAppIconByPackageName(str))).generate(new Palette.PaletteAsyncListener() {
                         public void onGenerated(Palette p) {
                             int color = p.getDominantColor(Color.BLACK);
