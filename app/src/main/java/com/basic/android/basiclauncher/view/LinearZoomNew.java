@@ -8,11 +8,11 @@ import android.widget.LinearLayout;
 
 import com.basic.android.basiclauncher.R;
 
-public class LinearZoom extends LinearLayout {
+public class LinearZoomNew extends LinearLayout {
 
     public final float zoom = getResources().getFraction(R.fraction.home_app_banner_focused_scale, 1, 1);
 
-    public LinearZoom(Context context, AttributeSet attributeSet) {
+    public LinearZoomNew(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
     }
 

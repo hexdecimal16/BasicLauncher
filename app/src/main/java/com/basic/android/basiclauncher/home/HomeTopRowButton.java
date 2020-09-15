@@ -20,27 +20,18 @@ import androidx.core.content.ContextCompat;
 import com.basic.android.basiclauncher.R;
 
 public class HomeTopRowButton extends LinearLayout {
-
-    /* renamed from: a */
-    public final float f3918a;
-
-    /* renamed from: b */
-    public View f3919b;
-
-    /* renamed from: c */
-    public ImageView f3920c;
-
-    /* renamed from: d */
+    
+    public final float zoom;
+    public View view;
+    public ImageView imageView;
     public Context context;
-
-    /* renamed from: e */
-    public TextView f3922e;
+    public TextView textView;
 
     public HomeTopRowButton(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         this.context = context;
         Resources resources = getResources();
-        this.f3918a = resources.getFraction(R.fraction.app_banner_focused_scale, 1, 1);
+        this.zoom = resources.getFraction(R.fraction.app_banner_focused_scale, 1, 1);
         resources.getColor(R.color.reference_white_100, (Resources.Theme) null);
         resources.getColor(R.color.reference_white_60, (Resources.Theme) null);
         resources.getInteger(R.integer.top_row_button_animation_duration_ms);
@@ -50,39 +41,36 @@ public class HomeTopRowButton extends LinearLayout {
 
     public final void onFinishInflate() {
         super.onFinishInflate();
-        Resources resources = getResources();
-        this.f3920c = (ImageView) findViewById(R.id.button_icon);
-        TextView textView = (TextView) findViewById(R.id.button_title);
+        this.imageView = (ImageView) findViewById(R.id.button_icon);
         View findViewById = findViewById(R.id.button_background);
-        this.f3922e = (TextView) findViewById(R.id.settings_title);
-        this.f3919b = findViewById;
-        this.f3920c.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_action_settings_white));
+        this.textView = (TextView) findViewById(R.id.settings_title);
+        this.view = findViewById;
+        this.imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_action_settings_white));
     }
 
     public void onFocusChanged(boolean z, int i, Rect rect) {
         float f;
         ViewPropertyAnimator viewPropertyAnimator;
         super.onFocusChanged(z, i, rect);
-        Resources resources = getResources();
         Drawable black = ContextCompat.getDrawable(getContext(), R.drawable.ic_action_settings_black);
         Drawable white = ContextCompat.getDrawable(getContext(), R.drawable.ic_action_settings_white);
         if (!z) {
-            this.f3920c.setBackground(white);
-            this.f3920c.setVisibility(View.VISIBLE);
-            this.f3922e.setVisibility(View.GONE);
-            this.f3919b.setVisibility(View.GONE);
+            this.imageView.setBackground(white);
+            this.imageView.setVisibility(View.VISIBLE);
+            this.textView.setVisibility(View.GONE);
+            this.view.setVisibility(View.GONE);
             f = 1.0f;
             viewPropertyAnimator = animate().z(0.0f).scaleX(1.0f);
         } else {
-            this.f3919b.setVisibility(View.VISIBLE);
-            this.f3922e.setText("Settings");
-            this.f3922e.setVisibility(View.VISIBLE);
+            this.view.setVisibility(View.VISIBLE);
+            this.textView.setText("Settings");
+            this.textView.setVisibility(View.VISIBLE);
             Drawable drawable2 = ContextCompat.getDrawable(getContext(), R.drawable.full_circle_background);
-            this.f3919b.setForeground(black);
-            this.f3919b.setBackground(drawable2);
-            this.f3920c.setVisibility(View.INVISIBLE);
-            viewPropertyAnimator = animate().z(0.0f).scaleX(this.f3918a);
-            f = this.f3918a;
+            this.view.setForeground(black);
+            this.view.setBackground(drawable2);
+            this.imageView.setVisibility(View.INVISIBLE);
+            viewPropertyAnimator = animate().z(0.0f).scaleX(this.zoom);
+            f = this.zoom;
         }
         viewPropertyAnimator.scaleY(f).setDuration(150);
     }

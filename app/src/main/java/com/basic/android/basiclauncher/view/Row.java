@@ -18,20 +18,11 @@ import java.util.Scanner;
 
 public class Row extends RecyclerView {
 
-    /* renamed from: E0 */
     public static Context context;
-
-    /* renamed from: F0 */
-    public static AddAppsAdapter f3943F0;
-
-    /* renamed from: G0 */
-    public static ArrayList<String> f3944G0 = new ArrayList<>();
-
-    /* renamed from: H0 */
-    public static String f3945H0 = "packages";
-
-    /* renamed from: I0 */
-    public static RecyclerView f3946I0;
+    public static AddAppsAdapter addAppsAdapter;
+    public static ArrayList<String> list = new ArrayList<>();
+    public static String packages = "packages";
+    public static RecyclerView recyclerView;
 
     public Row(Context cont, AttributeSet attributeSet) {
         super(cont, attributeSet);
@@ -40,7 +31,7 @@ public class Row extends RecyclerView {
 
     public static void setFavorite(String str) {
         File file = new File(Environment.getExternalStorageDirectory().toString(), "BasicLauncher");
-        File file2 = new File(file, f3945H0);
+        File file2 = new File(file, packages);
         if (!file2.canRead()) {
             file.mkdir();
             try {
@@ -61,25 +52,25 @@ public class Row extends RecyclerView {
         }
         try {
             Scanner scanner = new Scanner(file2);
-            f3944G0 = new ArrayList<>();
+            list = new ArrayList<>();
             while (scanner.hasNextLine()) {
                 String nextLine = scanner.nextLine();
                 if (nextLine != null) {
-                    f3944G0.add(nextLine);
+                    list.add(nextLine);
                 }
             }
         } catch (FileNotFoundException e3) {
             e3.printStackTrace();
         }
-        AddAppsAdapter bVar = new AddAppsAdapter(context, f3944G0);
-        f3943F0 = bVar;
-        f3946I0.setAdapter(bVar);
+        AddAppsAdapter bVar = new AddAppsAdapter(context, list);
+        addAppsAdapter = bVar;
+        recyclerView.setAdapter(bVar);
     }
 
     public final void onFinishInflate() {
         super.onFinishInflate();
         RecyclerView recyclerView = findViewById(R.id.recycler_view_add);
-        f3946I0 = recyclerView;
+        Row.recyclerView = recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL , false));
     }
 

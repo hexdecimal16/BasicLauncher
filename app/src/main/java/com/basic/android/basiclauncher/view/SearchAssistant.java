@@ -52,6 +52,7 @@ public class SearchAssistant extends FrameLayout {
         setOnFocusChangeListener(new OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean b) {
+                SearchView.changeFocus(b);
                 ViewPropertyAnimator viewPropertyAnimator;
                 Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_mic_color);
                 Drawable drawable2 = ContextCompat.getDrawable(getContext(), R.drawable.ic_google_assistant);

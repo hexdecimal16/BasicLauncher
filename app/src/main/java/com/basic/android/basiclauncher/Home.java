@@ -5,12 +5,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.LinearLayout;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.basic.android.basiclauncher.view.AddActivity;
@@ -19,18 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Home extends Activity {
-
-    /* renamed from: a */
-    public InstalledAppsAdapter f3909a;
-
-    /* renamed from: b */
+    
+    public InstalledAppsAdapter installedAppsAdapter;
     public RecyclerView f3910b;
-
-    /* renamed from: c */
-    public LinearLayout f3911c;
-
-    /* renamed from: d */
-    public Context f3912d;
+    public LinearLayout linearLayout;
+    public Context context;
+    private static NestedScrollView rootView;
 
     /* renamed from: a */
     @SuppressLint("WrongConstant")
@@ -46,20 +43,21 @@ public class Home extends Activity {
             arrayList.add(resolveInfo.activityInfo.applicationInfo.packageName);
         }
         InstalledAppsAdapter bVar = new InstalledAppsAdapter(this, arrayList);
-        this.f3909a = bVar;
+        this.installedAppsAdapter = bVar;
         this.f3910b.setAdapter(bVar);
         RecyclerView recyclerView = findViewById(R.id.recyler_view_apps);
         this.f3910b = recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-        this.f3910b.setAdapter(this.f3909a);
+        this.f3910b.setAdapter(this.installedAppsAdapter);
     }
 
     @SuppressLint("WrongConstant")
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        this.f3912d = this;
+        this.context = this;
         setContentView(R.layout.activity_home);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyler_view_apps);
+        rootView = findViewById(R.id.main_browse_fragment);
         this.f3910b = recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         Intent intent = new Intent("android.intent.action.MAIN", (Uri) null);
@@ -73,19 +71,19 @@ public class Home extends Activity {
             arrayList.add(resolveInfo.activityInfo.applicationInfo.packageName);
         }
         InstalledAppsAdapter bVar = new InstalledAppsAdapter(this, arrayList);
-        this.f3909a = bVar;
+        this.installedAppsAdapter = bVar;
         this.f3910b.setAdapter(bVar);
         if (ActivityCompat.checkSelfPermission(this, "android.permission.WRITE_EXTERNAL_STORAGE") != 0) {
             ActivityCompat.requestPermissions(this, new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"}, 1);
         } else {
 
         }
-        this.f3911c = findViewById(R.id.favorite_contain);
+        this.linearLayout = findViewById(R.id.favorite_contain);
     }
 
     public boolean onKeyUp(int i, KeyEvent keyEvent) {
-        if (this.f3911c.isFocused() && (keyEvent.getKeyCode() == 109 || keyEvent.getKeyCode() == 23 || keyEvent.getKeyCode() == 66)) {
-            this.f3912d.startActivity(new Intent(this.f3912d, AddActivity.class));
+        if (this.linearLayout.isFocused() && (keyEvent.getKeyCode() == 109 || keyEvent.getKeyCode() == 23 || keyEvent.getKeyCode() == 66)) {
+            this.context.startActivity(new Intent(this.context, AddActivity.class));
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
         }
         return super.onKeyUp(i, keyEvent);
@@ -100,5 +98,13 @@ public class Home extends Activity {
         super.onStart();
         updateRecyclers();
         Row.setFavorite("");
+    }
+
+    public static void changeColor(int color) {
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setOrientation(GradientDrawable.Orientation.TOP_BOTTOM);
+        int[] colors = { color, Color.BLACK};
+        drawable.setColors(colors);
+        rootView.setBackground(drawable);
     }
 }

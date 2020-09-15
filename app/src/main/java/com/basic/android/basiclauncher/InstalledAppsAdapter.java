@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,12 +19,15 @@ import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class InstalledAppsAdapter extends RecyclerView.Adapter<InstalledAppsAdapter.AppsViewHolder> {
-    /* access modifiers changed from: private */
+
     public Context mContext;
     private List<String> mDataSet;
 
@@ -34,12 +38,13 @@ public class InstalledAppsAdapter extends RecyclerView.Adapter<InstalledAppsAdap
         Log.d("List", arrayList.toString());
     }
 
-    public AppsViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    @NotNull
+    public AppsViewHolder onCreateViewHolder(@NotNull ViewGroup viewGroup, int i) {
         return new AppsViewHolder(LayoutInflater.from(this.mContext).inflate(R.layout.icon, viewGroup, false));
     }
 
-    public void onBindViewHolder(AppsViewHolder appsViewHolder, int i) {
-        AppsManager appsManager = new AppsManager(this.mContext);
+    public void onBindViewHolder(@NotNull AppsViewHolder appsViewHolder, int i) {
+        final AppsManager appsManager = new AppsManager(this.mContext);
         final String str = this.mDataSet.get(i);
         if (str != null) {
             String applicationLabelByPackageName = appsManager.getApplicationLabelByPackageName(str);
@@ -64,6 +69,20 @@ public class InstalledAppsAdapter extends RecyclerView.Adapter<InstalledAppsAdap
                     Toast.makeText(access$000, str + " Launch Error.", 0).show();
                 }
             });
+            appsViewHolder.mCardView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean b) {
+                    if( b) {
+                        Log.i("onFocusChange", "focused: " + b);
+                        Palette.from(getBitmapFromDrawable(appsManager.getAppIconByPackageName(str))).generate(new Palette.PaletteAsyncListener() {
+                            public void onGenerated(Palette p) {
+                                int color = p.getDominantColor(Color.BLACK);
+                                Home.changeColor(color);
+                            }
+                        });
+                    }
+                }
+            });
         }
     }
 
@@ -71,7 +90,7 @@ public class InstalledAppsAdapter extends RecyclerView.Adapter<InstalledAppsAdap
         return this.mDataSet.size();
     }
 
-    class AppsViewHolder extends RecyclerView.ViewHolder {
+    static class AppsViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout mCardView;
         ImageView mImageViewIcon;
         TextView mTextViewLabel;

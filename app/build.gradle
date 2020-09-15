@@ -8,8 +8,8 @@ android {
         applicationId "com.basic.android.basiclauncher"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 7
-        versionName "4.3"
+        versionCode 8
+        versionName "4.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -34,7 +34,6 @@ dependencies {
     implementation "androidx.leanback:leanback-tab:1.1.0-alpha04"
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
-    //noinspection GradleCompatible
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

@@ -8,11 +8,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class ScaleFocusImageView extends ConstraintLayout {
 
-    /* renamed from: p */
-    public TextView f3913p;
-
-    /* renamed from: q */
-    public float f3914q = getResources().getFraction(R.fraction.home_app_banner_focused_scale, 1, 1);
+    public TextView textView;
+    public float zoom = getResources().getFraction(R.fraction.home_app_banner_focused_scale, 1, 1);
 
     public ScaleFocusImageView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
@@ -20,7 +17,7 @@ public class ScaleFocusImageView extends ConstraintLayout {
 
     public final void onAttachedToWindow() {
         super.onAttachedToWindow();
-        this.f3913p = (TextView) findViewById(R.id.text_view_icon_title);
+        this.textView = (TextView) findViewById(R.id.text_view_icon_title);
     }
 
     public void onFocusChanged(boolean z, int i, Rect rect) {
@@ -29,11 +26,11 @@ public class ScaleFocusImageView extends ConstraintLayout {
         super.onFocusChanged(z, i, rect);
         if (!z) {
             animate().z(0.0f).scaleX(1.0f).scaleY(1.0f).setDuration(150);
-            textView = this.f3913p;
+            textView = this.textView;
             i2 = 8;
         } else {
-            animate().z(2.0f).scaleX(this.f3914q).scaleY(this.f3914q).setDuration(150);
-            textView = this.f3913p;
+            animate().z(2.0f).scaleX(this.zoom).scaleY(this.zoom).setDuration(150);
+            textView = this.textView;
             i2 = 0;
         }
         textView.setVisibility(i2);

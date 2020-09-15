@@ -25,14 +25,9 @@ import java.util.Scanner;
 
 public class AddActivity extends Activity {
 
-    /* renamed from: a */
-    public LinearZoom f3938a;
-
-    /* renamed from: b */
-    public AddAppsAdapter f3939b;
-
-    /* renamed from: c */
-    public Context f3940c;
+    public LinearZoom linearZoom;
+    public AddAppsAdapter addAppsAdapter;
+    public Context context;
 
     public void finish() {
         super.finish();
@@ -84,22 +79,22 @@ public class AddActivity extends Activity {
         while (it.hasNext()) {
             arrayList5.add(it.next());
         }
-        this.f3939b = new AddAppsAdapter(this, arrayList5);
+        this.addAppsAdapter = new AddAppsAdapter(this, arrayList5);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        recyclerView.setAdapter(this.f3939b);
-        this.f3938a = findViewById(R.id.linearLayout);
+        recyclerView.setAdapter(this.addAppsAdapter);
+        this.linearZoom = findViewById(R.id.linearLayout);
     }
 
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.favorite_app_preference);
-        this.f3940c = this;
+        this.context = this;
     }
 
     public boolean onKeyUp(int i, KeyEvent keyEvent) {
-        if (this.f3938a.isFocused() && (i == 109 || i == 23 || i == 66)) {
+        if (this.linearZoom.isFocused() && (i == 109 || i == 23 || i == 66)) {
             new File(new File(Environment.getExternalStorageDirectory().toString(), "BasicLauncher"), "packages").delete();
-            this.f3940c.startActivity(new Intent(this.f3940c, Home.class));
+            this.context.startActivity(new Intent(this.context, Home.class));
         }
         return super.onKeyUp(i, keyEvent);
     }

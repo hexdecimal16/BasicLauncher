@@ -5,18 +5,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.basic.android.basiclauncher.AppsManager;
+import com.basic.android.basiclauncher.InstalledAppsAdapter;
 import com.basic.android.basiclauncher.R;
 import com.basic.android.basiclauncher.Home;
 import com.basic.android.basiclauncher.view.Row;
@@ -40,8 +44,8 @@ public class AddAppsAdapter extends RecyclerView.Adapter<AddAppsAdapter.AppsView
         return new AppsViewHolder(LayoutInflater.from(this.mContext).inflate(R.layout.icon, viewGroup, false));
     }
 
-    public void onBindViewHolder(AppsViewHolder appsViewHolder, int i) {
-        AppsManager appsManager = new AppsManager(this.mContext);
+    public void onBindViewHolder(AppsViewHolder appsViewHolder, final int i) {
+        final AppsManager appsManager = new AppsManager(this.mContext);
         final String str = this.mDataSet.get(i);
         String applicationLabelByPackageName = appsManager.getApplicationLabelByPackageName(str);
         Drawable appIconByPackageName = appsManager.getAppIconByPackageName(str);
@@ -51,14 +55,31 @@ public class AddAppsAdapter extends RecyclerView.Adapter<AddAppsAdapter.AppsView
         }
         ((RequestBuilder) Glide.with(this.mContext).load(appIconByPackageName).fitCenter()).into(appsViewHolder.mImageViewIcon);
         appsViewHolder.mImageViewIcon.setContentDescription(applicationLabelByPackageName);
+        appsViewHolder.mTextViewLabel.setText(applicationLabelByPackageName);
         appsViewHolder.mCardView.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("WrongConstant")
             public void onClick(View view) {
-                Row.setFavorite(str);
-                Intent intent = new Intent(AddAppsAdapter.this.mContext, Home.class);
-                intent.setFlags(603979776);
-                intent.putExtra(AddAppsAdapter.PACKAGE, str);
-                AddAppsAdapter.this.mContext.startActivity(intent);
+                Intent leanbackLaunchIntentForPackage = AddAppsAdapter.this.mContext.getPackageManager().getLeanbackLaunchIntentForPackage(str);
+                if (leanbackLaunchIntentForPackage != null) {
+                    AddAppsAdapter.this.mContext.startActivity(leanbackLaunchIntentForPackage);
+                    return;
+                }
+                Context access$000 = AddAppsAdapter.this.mContext;
+                Toast.makeText(access$000, str + " Launch Error.", 0).show();
+            }
+        });
+        appsViewHolder.mCardView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if( b) {
+                    Log.i("onFocusChange", "focused: " + b);
+                    Palette.from(getBitmapFromDrawable(appsManager.getAppIconByPackageName(str))).generate(new Palette.PaletteAsyncListener() {
+                        public void onGenerated(Palette p) {
+                            int color = p.getDominantColor(Color.BLACK);
+                            Home.changeColor(color);
+                        }
+                    });
+                }
             }
         });
     }
@@ -67,7 +88,7 @@ public class AddAppsAdapter extends RecyclerView.Adapter<AddAppsAdapter.AppsView
         return this.mDataSet.size();
     }
 
-    class AppsViewHolder extends RecyclerView.ViewHolder {
+    static class AppsViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout mCardView;
         ImageView mImageViewIcon;
         TextView mTextViewLabel;
