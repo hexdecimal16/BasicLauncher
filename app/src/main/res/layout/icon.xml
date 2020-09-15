@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.basic.android.basiclauncher.ScaleFocusImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:focusable="true"
+    android:clickable="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="15dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginEnd="15dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/card_view_image"
+        android:focusable="true"
+        android:clickable="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stateListAnimator="@animator/animator">
+        <ImageView
+            android:id="@+id/image_view"
+            android:background="@color/iconBackGray"
+            android:layout_width="115dp"
+            android:layout_height="65dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.511"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/text_view_icon_title"
+        android:visibility="gone"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_view_image"
+        style="@style/AppBannerTitle"/>
+</com.basic.android.basiclauncher.ScaleFocusImageView>
