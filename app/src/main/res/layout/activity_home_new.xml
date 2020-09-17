@@ -52,6 +52,7 @@
             android:paddingStart="@dimen/overscan_horizontal"
             android:paddingEnd="@dimen/overscan_horizontal"
             android:layout_marginStart="@dimen/search_orb_margin_start">
+
             <LinearLayout
                 android:layout_gravity="center_vertical"
                 android:orientation="horizontal"
@@ -115,6 +116,7 @@
                         app:layout_constraintTop_toTopOf="@+id/cardViewRowIcon" />
 
                 </com.basic.android.basiclauncher.view.LinearZoomNew>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyler_view_apps"
                     android:focusable="true"
@@ -148,50 +150,50 @@
                     android:nextFocusDown="@id/row_titleFavorite"
                     android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:id="@+id/cardViewRowIconFavorite"
-                        android:layout_width="@dimen/app_banner_width"
-                        android:layout_height="@dimen/app_banner_height"
-                        android:src="@drawable/add_favorite_app"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/cardViewRowIconFavorite"
+                    android:layout_width="@dimen/app_banner_width"
+                    android:layout_height="@dimen/app_banner_height"
+                    android:src="@drawable/add_favorite_app"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/textViewBottomFavorite"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="Favorite"
-                        android:textSize="18sp"
-                        android:textColor="@color/reference_white_60"
-                        android:ellipsize="marquee"
-                        android:layout_gravity="center"
-                        android:singleLine="true"
-                        android:marqueeRepeatLimit="1"
-                        android:importantForAccessibility="no"
-                        android:fontFamily="@font/google_sans"
-                        app:layout_constraintEnd_toEndOf="@+id/cardViewRowIconFavorite"
-                        app:layout_constraintStart_toStartOf="@+id/cardViewRowIconFavorite"
-                        app:layout_constraintTop_toBottomOf="@+id/cardViewRowIconFavorite" />
+                <TextView
+                    android:id="@+id/textViewBottomFavorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Favorite"
+                    android:textSize="18sp"
+                    android:textColor="@color/reference_white_60"
+                    android:ellipsize="marquee"
+                    android:layout_gravity="center"
+                    android:singleLine="true"
+                    android:marqueeRepeatLimit="1"
+                    android:importantForAccessibility="no"
+                    android:fontFamily="@font/google_sans"
+                    app:layout_constraintEnd_toEndOf="@+id/cardViewRowIconFavorite"
+                    app:layout_constraintStart_toStartOf="@+id/cardViewRowIconFavorite"
+                    app:layout_constraintTop_toBottomOf="@+id/cardViewRowIconFavorite" />
 
-                    <TextView
-                        android:id="@+id/textViewEndFavorite"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:visibility="gone"
-                        android:text="Favorite"
-                        android:textSize="18sp"
-                        android:textColor="@color/reference_white_60"
-                        android:ellipsize="marquee"
-                        android:layout_gravity="center"
-                        android:singleLine="true"
-                        android:marqueeRepeatLimit="1"
-                        android:importantForAccessibility="no"
-                        android:fontFamily="@font/google_sans"
-                        app:layout_constraintBottom_toBottomOf="@+id/cardViewRowIconFavorite"
-                        app:layout_constraintStart_toEndOf="@+id/cardViewRowIconFavorite"
-                        app:layout_constraintTop_toTopOf="@+id/cardViewRowIconFavorite" />
+                <TextView
+                    android:id="@+id/textViewEndFavorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:visibility="gone"
+                    android:text="Favorite"
+                    android:textSize="18sp"
+                    android:textColor="@color/reference_white_60"
+                    android:ellipsize="marquee"
+                    android:layout_gravity="center"
+                    android:singleLine="true"
+                    android:marqueeRepeatLimit="1"
+                    android:importantForAccessibility="no"
+                    android:fontFamily="@font/google_sans"
+                    app:layout_constraintBottom_toBottomOf="@+id/cardViewRowIconFavorite"
+                    app:layout_constraintStart_toEndOf="@+id/cardViewRowIconFavorite"
+                    app:layout_constraintTop_toTopOf="@+id/cardViewRowIconFavorite" />
 
                 </com.basic.android.basiclauncher.view.LinearZoomFavorite>
 

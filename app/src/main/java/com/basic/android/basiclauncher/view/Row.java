@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.basic.android.basiclauncher.CenterLayoutManager;
 import com.basic.android.basiclauncher.InstalledAppsAdapter;
 import com.basic.android.basiclauncher.R;
 import com.basic.android.basiclauncher.favorite.AddAppsAdapter;
@@ -72,7 +73,7 @@ public class Row extends RecyclerView {
         super.onFinishInflate();
         RecyclerView recyclerView = findViewById(R.id.recycler_view_add);
         Row.recyclerView = recyclerView;
-        recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL , false));
+        recyclerView.setLayoutManager(new CenterLayoutManager(context, LinearLayoutManager.HORIZONTAL , false));
     }
 
     protected boolean isPaddingOffsetRequired() {

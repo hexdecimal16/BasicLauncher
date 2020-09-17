@@ -47,7 +47,7 @@ public class AddAppsAdapter extends RecyclerView.Adapter<AddAppsAdapter.AppsView
         return new AppsViewHolder(LayoutInflater.from(this.mContext).inflate(R.layout.icon, viewGroup, false));
     }
 
-    public void onBindViewHolder(AppsViewHolder appsViewHolder, final int i) {
+    public void onBindViewHolder(final AppsViewHolder appsViewHolder, final int i) {
         final AppsManager appsManager = new AppsManager(this.mContext);
         final String str = this.mDataSet.get(i);
         String applicationLabelByPackageName = appsManager.getApplicationLabelByPackageName(str);
@@ -97,6 +97,7 @@ public class AddAppsAdapter extends RecyclerView.Adapter<AddAppsAdapter.AppsView
 
     static class AppsViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout mCardView;
+        ConstraintLayout cvImage;
         ImageView mImageViewIcon;
         TextView mTextViewLabel;
         RecyclerView recyclerView;
@@ -104,6 +105,7 @@ public class AddAppsAdapter extends RecyclerView.Adapter<AddAppsAdapter.AppsView
         AppsViewHolder(View view) {
             super(view);
             this.mCardView = view.findViewById(R.id.card_view);
+            cvImage = view.findViewById(R.id.card_view_image);
             this.mTextViewLabel = view.findViewById(R.id.text_view_icon_title);
             this.mImageViewIcon = view.findViewById(R.id.image_view);
             this.recyclerView = view.findViewById(R.id.recycler_view_add);
@@ -117,6 +119,7 @@ public class AddAppsAdapter extends RecyclerView.Adapter<AddAppsAdapter.AppsView
         drawable.draw(canvas);
         return createBitmap;
     }
+
 
 
 }

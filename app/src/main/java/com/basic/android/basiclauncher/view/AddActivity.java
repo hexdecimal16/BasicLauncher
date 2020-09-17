@@ -5,12 +5,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.KeyEvent;
+import android.view.View;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import com.basic.android.basiclauncher.Home;
 import com.basic.android.basiclauncher.R;
@@ -84,6 +88,8 @@ public class AddActivity extends Activity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2)  );
         recyclerView.setAdapter(this.addAppsAdapter);
         this.linearZoom = findViewById(R.id.linearLayout);
+
+
     }
 
     public void onCreate(Bundle bundle) {

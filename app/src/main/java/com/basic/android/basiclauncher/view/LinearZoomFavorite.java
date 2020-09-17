@@ -56,12 +56,8 @@ public class LinearZoomFavorite extends ConstraintLayout {
             });
         } else {
             bottom.setVisibility(View.GONE);
-            viewPropertyAnimator = animate().z(2.0f).scaleX(this.zoom).withEndAction(new Runnable() {
-                @Override
-                public void run() {
-                    end.setVisibility(View.VISIBLE);
-                }
-            });
+            end.setVisibility(View.VISIBLE);
+            viewPropertyAnimator = animate().z(2.0f).scaleX(this.zoom);
             f = this.zoom;
         }
         viewPropertyAnimator.scaleY(f).setDuration(150);

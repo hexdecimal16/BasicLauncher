@@ -17,13 +17,8 @@ import com.basic.android.basiclauncher.view.AddActivity;
 
 public class AddView extends LinearLayout {
 
-    /* renamed from: c */
     public  Context context;
-
-    /* renamed from: a */
-    public final float f3916a = getResources().getFraction(R.fraction.app_banner_focused_scale, 1, 1);
-
-    /* renamed from: b */
+    public final float zoom = getResources().getFraction(R.fraction.app_banner_focused_scale, 1, 1);
     public TextView f3917b;
 
     public AddView(Context context, AttributeSet attributeSet) {
@@ -47,8 +42,8 @@ public class AddView extends LinearLayout {
         } else {
             this.f3917b.setVisibility(View.VISIBLE);
             this.f3917b.setText("Add/Remove");
-            viewPropertyAnimator = animate().z(0.0f).scaleX(this.f3916a);
-            f = this.f3916a;
+            viewPropertyAnimator = animate().z(0.0f).scaleX(this.zoom);
+            f = this.zoom;
         }
         viewPropertyAnimator.scaleY(f).setDuration(150);
     }

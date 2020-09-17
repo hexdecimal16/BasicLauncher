@@ -3,26 +3,30 @@ package com.basic.android.basiclauncher.clock;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.widget.TextClock;
+
+import androidx.core.content.res.ResourcesCompat;
+
+import com.basic.android.basiclauncher.R;
 
 public class ClockView extends TextClock {
     public ClockView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
     }
 
-    public final void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("android.intent.action.TIME_SET");
-        intentFilter.addAction("android.intent.action.TIMEZONE_CHANGED");
-        intentFilter.addAction("android.intent.action.LOCALE_CHANGED");
-        getContext().registerReceiver(null, intentFilter, null, null);
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+        setFormat12Hour( "K:m" );
+        Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.google_sans);
+        setTypeface(typeface);
     }
 
     public final void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        getContext().unregisterReceiver(null);
     }
+
 }

@@ -22,37 +22,83 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:importantForAccessibility="no">
-            <com.basic.android.basiclauncher.view.SearchAssistant
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/micLay"
                 android:focusable="true"
                 android:clickable="true"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginBottom="@dimen/top_row_button_margin_bottom">
-                <View
+
+                <ImageView
+                    android:id="@+id/mic"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_gravity="center"
+                    android:contentDescription="@string/mic_disabled_icon_content_description"
+                    android:src="@drawable/ic_google_assistant"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
                     android:id="@+id/button_background_mic"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"/>
-                <ImageView
+                    android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:id="@+id/mic"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/ic_google_assistant"
-                    android:contentDescription="@string/mic_disabled_icon_content_description" android:layout_marginStart="@dimen/mic_disabled_icon_margin" android:layout_marginEnd="@dimen/mic_disabled_icon_margin"/>
-            </com.basic.android.basiclauncher.view.SearchAssistant>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/keyboardLay"
+                android:focusable="true"
+                android:clickable="true"
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="@dimen/top_row_button_margin_bottom">
+
+                <ImageView
+                    android:id="@+id/keyboard"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_keyboard_gray"
+                    android:contentDescription="@string/mic_disabled_icon_content_description"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/button_background_keyboard"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <TextSwitcher
                 android:layout_gravity="center_vertical"
                 android:id="@+id/text_switcher"
                 android:focusable="false"
+                android:clickable="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:measureAllChildren="false"
                 android:importantForAccessibility="noHideDescendants"
-                android:layout_marginStart="@dimen/search_text_margin_start"/>
+                android:layout_marginStart="12dp"/>
         </LinearLayout>
     </LinearLayout>
 </com.basic.android.basiclauncher.view.SearchView>

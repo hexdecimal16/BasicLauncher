@@ -1,6 +1,5 @@
 package com.basic.android.basiclauncher.home;
 
-import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -20,10 +19,10 @@ import androidx.core.content.ContextCompat;
 import com.basic.android.basiclauncher.R;
 
 public class HomeTopRowButton extends LinearLayout {
-    
+
     public final float zoom;
-    public View view;
-    public ImageView imageView;
+    public ImageView imageViewBack;
+    public ImageView imageViewFront;
     public Context context;
     public TextView textView;
 
@@ -32,20 +31,14 @@ public class HomeTopRowButton extends LinearLayout {
         this.context = context;
         Resources resources = getResources();
         this.zoom = resources.getFraction(R.fraction.app_banner_focused_scale, 1, 1);
-        resources.getColor(R.color.reference_white_100, (Resources.Theme) null);
-        resources.getColor(R.color.reference_white_60, (Resources.Theme) null);
-        resources.getInteger(R.integer.top_row_button_animation_duration_ms);
-        new AnimatorSet();
-        new AnimatorSet();
     }
 
     public final void onFinishInflate() {
         super.onFinishInflate();
-        this.imageView = (ImageView) findViewById(R.id.button_icon);
-        View findViewById = findViewById(R.id.button_background);
-        this.textView = (TextView) findViewById(R.id.settings_title);
-        this.view = findViewById;
-        this.imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_action_settings_white));
+        imageViewFront = findViewById(R.id.ivSettingsIcon);
+        imageViewBack = findViewById(R.id.ivSettingsBackground);
+        textView = findViewById(R.id.settings_title);
+        imageViewFront.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_action_settings_white));
     }
 
     public void onFocusChanged(boolean z, int i, Rect rect) {
@@ -54,23 +47,21 @@ public class HomeTopRowButton extends LinearLayout {
         super.onFocusChanged(z, i, rect);
         Drawable black = ContextCompat.getDrawable(getContext(), R.drawable.ic_action_settings_black);
         Drawable white = ContextCompat.getDrawable(getContext(), R.drawable.ic_action_settings_white);
+        Drawable drawable2 = ContextCompat.getDrawable(getContext(), R.drawable.full_circle_background);
         if (!z) {
-            this.imageView.setBackground(white);
-            this.imageView.setVisibility(View.VISIBLE);
-            this.textView.setVisibility(View.GONE);
-            this.view.setVisibility(View.GONE);
+            imageViewFront.setImageDrawable(white);
+            textView.setVisibility(View.GONE);
+            imageViewBack.setVisibility(View.GONE);
             f = 1.0f;
-            viewPropertyAnimator = animate().z(0.0f).scaleX(1.0f);
+            viewPropertyAnimator = imageViewBack.animate().z(0.0f).scaleX(1.0f);
         } else {
-            this.view.setVisibility(View.VISIBLE);
-            this.textView.setText("Settings");
-            this.textView.setVisibility(View.VISIBLE);
-            Drawable drawable2 = ContextCompat.getDrawable(getContext(), R.drawable.full_circle_background);
-            this.view.setForeground(black);
-            this.view.setBackground(drawable2);
-            this.imageView.setVisibility(View.INVISIBLE);
-            viewPropertyAnimator = animate().z(0.0f).scaleX(this.zoom);
-            f = this.zoom;
+            imageViewBack.setVisibility(View.VISIBLE);
+            textView.setText("Settings");
+            textView.setVisibility(View.VISIBLE);
+            imageViewFront.setImageDrawable(black);
+            imageViewBack.setImageDrawable(drawable2);
+            viewPropertyAnimator = imageViewBack.animate().z(-2.0f).scaleX(zoom);
+            f = zoom;
         }
         viewPropertyAnimator.scaleY(f).setDuration(150);
     }

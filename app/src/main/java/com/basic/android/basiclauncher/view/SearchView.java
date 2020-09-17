@@ -1,22 +1,34 @@
 package com.basic.android.basiclauncher.view;
 
+import android.annotation.SuppressLint;
+import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewPropertyAnimator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.basic.android.basiclauncher.R;
@@ -27,16 +39,22 @@ import java.util.TimerTask;
 public class SearchView extends FrameLayout {
 
     private Context context;
-    public TextSwitcher textSwitcher;
+    private TextSwitcher textSwitcher;
+    private ConstraintLayout keyboard;
+    private ConstraintLayout assistant;
+    private ImageView imageViewAssistant;
+    private ImageView imageViewKeyboard;
+    private ImageView viewAssistant;
+    private ImageView viewKeyboard;
+    private float zoom;
     private String[] suggestions;
-    private SearchAssistant searchAssistant;
-    public static boolean focus = false;
+    private boolean focus = false;
     
     
     public SearchView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         Resources resources = getResources();
-        this.suggestions = resources.getStringArray(R.array.search_orb_text_to_show);
+        suggestions = resources.getStringArray(R.array.search_orb_text_to_show);
         this.context = context;
     }
 
@@ -53,25 +71,34 @@ public class SearchView extends FrameLayout {
     }
 
     private void init() {
+        Resources resources = getResources();
+        zoom = resources.getFraction(R.fraction.app_banner_focused_scale, 1, 1);
         textSwitcher = findViewById(R.id.text_switcher);
-        searchAssistant = findViewById(R.id.micLay);
+        assistant = findViewById(R.id.micLay);
+        viewAssistant = findViewById(R.id.button_background_mic);
+        imageViewAssistant = findViewById(R.id.mic);
+        keyboard = findViewById(R.id.keyboardLay);
+        viewKeyboard = findViewById(R.id.button_background_keyboard);
+        imageViewKeyboard = findViewById(R.id.keyboard);
         textSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
             public View makeView() {
                 TextView textView = new TextView(context);
                 Typeface typeface = ResourcesCompat.getFont(context,R.font.google_sans);
                 textView.setTypeface(typeface);
+                textView.setTextColor(ContextCompat.getColor(getContext(), R.color.white_50));
+                textView.setTextSize(18f);
                 textView.setText(suggestions[(int) Math.floor(Math.random() * ((double) suggestions.length))]);
                 return textView;
             }
         });
         Animation loadAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-        loadAnimation.setDuration(1000);
+        loadAnimation.setDuration(500);
         textSwitcher.setInAnimation(loadAnimation);
     }
 
     private void listeners() {
-        searchAssistant.setOnKeyListener(new OnKeyListener() {
+        assistant.setOnKeyListener(new OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if (i != 109 && i != 23 && i != 66) {
@@ -106,10 +133,102 @@ public class SearchView extends FrameLayout {
                 });
             }
         };
-        timer.schedule(doAsynchronousTask, 0, 6000);
-    }
+        timer.schedule(doAsynchronousTask, 0, 10000);
 
-    public static void changeFocus(boolean value) {
-        focus = value;
+        keyboard.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b) {
+                    keyboard.setVisibility(VISIBLE);
+                }else {
+                    keyboard.setVisibility(GONE);
+                }
+            }
+        });
+        assistant.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                ViewPropertyAnimator viewPropertyAnimator;
+                Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_mic_color);
+                Drawable drawable2 = ContextCompat.getDrawable(getContext(), R.drawable.ic_google_assistant);
+                Drawable drawable3 = ContextCompat.getDrawable(getContext(), R.drawable.full_circle_background);
+                float f;
+                if (!b) {
+                    imageViewAssistant.setVisibility(View.VISIBLE);
+                    viewAssistant.setVisibility(View.GONE);
+                    imageViewAssistant.setImageDrawable(drawable2);
+                    f = 1.0f;
+                    viewPropertyAnimator = viewAssistant.animate().z(0.0f).scaleX(1.0f);
+                    String str = suggestions[(int) Math.floor(Math.random() * ((double) suggestions.length))];
+                    textSwitcher.animate();
+                    textSwitcher.setText(str);
+                    if(!keyboard.hasFocus()) {
+                        keyboard.setVisibility(GONE);
+                    }
+                } else {
+                    viewAssistant.setVisibility(View.VISIBLE);
+                    imageViewAssistant.setImageDrawable(drawable);
+                    viewAssistant.setImageDrawable(drawable3);
+                    viewPropertyAnimator = viewAssistant.animate().z(-2.0f).scaleX(zoom);
+                    f = zoom;
+                    textSwitcher.setText("Click to speak");
+                    //keyboard.setVisibility(VISIBLE);
+                }
+                viewPropertyAnimator.scaleY(f).setDuration(150);
+            }
+        });
+
+        keyboard.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                ViewPropertyAnimator viewPropertyAnimator;
+                Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_keyboard_gray);
+                Drawable drawable2 = ContextCompat.getDrawable(getContext(), R.drawable.ic_keyboard_black);
+                Drawable drawable3 = ContextCompat.getDrawable(getContext(), R.drawable.full_circle_background);
+                float f;
+                if (!b) {
+                    viewKeyboard.setVisibility(View.GONE);
+                    imageViewKeyboard.setImageDrawable(drawable);
+                    f = 1.0f;
+                    viewPropertyAnimator = viewKeyboard.animate().z(0.0f).scaleX(1.0f);
+                    String str = suggestions[(int) Math.floor(Math.random() * ((double) suggestions.length))];
+                    textSwitcher.animate();
+                    textSwitcher.setText(str);
+                    if(!assistant.hasFocus()) {
+                        keyboard.setVisibility(GONE);
+                    }
+                } else {
+                    imageViewKeyboard.setImageDrawable(drawable2);
+                    viewKeyboard.setVisibility(View.VISIBLE);
+                    viewKeyboard.setImageDrawable(drawable3);
+                    viewPropertyAnimator = viewKeyboard.animate().z(-2.0f).scaleX(zoom);
+                    f = zoom;
+                    textSwitcher.setText("Click to type");
+                }
+                viewPropertyAnimator.scaleY(f).setDuration(150);
+            }
+        });
+
+        keyboard.setOnClickListener(new OnClickListener() {
+            @SuppressLint("WrongConstant")
+            @Override
+            public void onClick(View view) {
+                Log.i("SearchView", "clicked");
+//                Intent launchIntent = null;
+//                try{
+//                    launchIntent = getContext().getPackageManager().getLaunchIntentForPackage("com.google.android.katniss").setClassName("com.google.android.katniss", ".search.KeyboardSearchActivity");
+//                } catch (Exception ignored) {
+//                    ignored.printStackTrace();
+//                }
+//
+//                if(launchIntent == null){
+//                    getContext().startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://play.google.com/store/apps/details?id=" + "com.google.android.katniss")));
+//                } else {
+//                    getContext().startActivity(launchIntent);
+//                }
+//                getContext().startActivity(getContext().getPackageManager().getLaunchIntentForPackage("com.google.android.katniss"));
+                String url = "https://www.google.com.ua";
+            }
+        });
     }
 }
