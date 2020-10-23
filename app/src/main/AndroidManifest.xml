@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.basic.android.basiclauncher">
     <uses-feature android:name="android.software.leanback" android:required="false"/>
     <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="com.android.providers.tv.permission.WRITE_EPG_DATA"/>
-    <uses-permission android:name="com.android.providers.tv.permission.READ_EPG_DATA"/>
 
     <application
         android:theme="@style/Theme.Leanback"
@@ -31,5 +31,12 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER"/>
             </intent-filter>
         </activity>
+        <receiver android:name=".MyReceiver">
+                <intent-filter>
+                    <action android:name="android.intent.action.PACKAGE_INSTALL" />
+                    <action android:name="android.intent.action.PACKAGE_ADDED" />
+                    <data android:scheme="package"/>
+                </intent-filter>
+        </receiver>
     </application>
 </manifest>

@@ -8,8 +8,8 @@ android {
         applicationId "com.basic.android.basiclauncher"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 12
-        versionName "4.8"
+        versionCode 13
+        versionName "4.9"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -27,13 +27,14 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation "androidx.constraintlayout:constraintlayout:2.0.1"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.2"
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.leanback:leanback:1.0.0"
-    implementation "androidx.leanback:leanback-paging:1.1.0-alpha04"
-    implementation "androidx.leanback:leanback-tab:1.1.0-alpha04"
+    implementation "androidx.leanback:leanback-paging:1.1.0-alpha05"
+    implementation "androidx.leanback:leanback-tab:1.1.0-alpha05"
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'androidx.tvprovider:tvprovider:1.0.0'
 }

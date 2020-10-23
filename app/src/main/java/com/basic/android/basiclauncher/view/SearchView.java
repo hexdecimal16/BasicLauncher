@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.fonts.FontStyle;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
@@ -23,8 +24,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -49,8 +53,8 @@ public class SearchView extends FrameLayout {
     private float zoom;
     private String[] suggestions;
     private boolean focus = false;
-    
-    
+    int init = 1;
+
     public SearchView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         Resources resources = getResources();
@@ -62,12 +66,6 @@ public class SearchView extends FrameLayout {
         super.onFinishInflate();
         init();
         listeners();
-        try {
-            context.getPackageManager().getPackageInfo("com.google.android.googlequicksearchbox", 0);
-        } catch (PackageManager.NameNotFoundException unused) {
-            unused.printStackTrace();
-        }
-
     }
 
     private void init() {
@@ -93,7 +91,7 @@ public class SearchView extends FrameLayout {
             }
         });
         Animation loadAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-        loadAnimation.setDuration(500);
+        loadAnimation.setDuration(250);
         textSwitcher.setInAnimation(loadAnimation);
     }
 
@@ -113,27 +111,7 @@ public class SearchView extends FrameLayout {
                 }
             }
         });
-        Timer timer = new Timer();
-        TimerTask doAsynchronousTask = new TimerTask() {
-            @Override
-            public void run() {
-                Handler handler = new Handler(Looper.getMainLooper());
-                handler.post(new Runnable() {
-                    public void run() {
-                        try {
-                            if(!focus) {
-                                String str = suggestions[(int) Math.floor(Math.random() * ((double) suggestions.length))];
-                                textSwitcher.animate();
-                                textSwitcher.setText(str);
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-            }
-        };
-        timer.schedule(doAsynchronousTask, 0, 10000);
+        startTextSwitcher();
 
         keyboard.setOnFocusChangeListener(new OnFocusChangeListener() {
             @Override
@@ -161,18 +139,48 @@ public class SearchView extends FrameLayout {
                     viewPropertyAnimator = viewAssistant.animate().z(0.0f).scaleX(1.0f);
                     String str = suggestions[(int) Math.floor(Math.random() * ((double) suggestions.length))];
                     textSwitcher.animate();
+                    textSwitcher.removeAllViews();
+                    textSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+                        @Override
+                        public View makeView() {
+                            TextView textView = new TextView(context);
+                            Typeface typeface = ResourcesCompat.getFont(context,R.font.google_sans);
+                            textView.setTypeface(typeface, Typeface.ITALIC);
+                            textView.setTypeface(typeface);
+                            textView.setTextColor(ContextCompat.getColor(getContext(), R.color.white_30));
+                            textView.setTextSize(18f);
+                            textView.setText(suggestions[(int) Math.floor(Math.random() * ((double) suggestions.length))]);
+                            return textView;
+                        }
+                    });
                     textSwitcher.setText(str);
                     if(!keyboard.hasFocus()) {
                         keyboard.setVisibility(GONE);
                     }
+                    focus = false;
                 } else {
                     viewAssistant.setVisibility(View.VISIBLE);
                     imageViewAssistant.setImageDrawable(drawable);
                     viewAssistant.setImageDrawable(drawable3);
                     viewPropertyAnimator = viewAssistant.animate().z(-2.0f).scaleX(zoom);
                     f = zoom;
+                    textSwitcher.removeAllViews();
+                    textSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+                        @Override
+                        public View makeView() {
+                            TextView textView = new TextView(context);
+                            Typeface typeface = ResourcesCompat.getFont(context,R.font.google_sans);
+                            textView.setTypeface(typeface);
+                            textView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 0));
+                            textView.setTextColor(ContextCompat.getColor(getContext(), R.color.white_90));
+                            textView.setTextSize(18f);
+                            textView.setText(suggestions[(int) Math.floor(Math.random() * ((double) suggestions.length))]);
+                            return textView;
+                        }
+                    });
                     textSwitcher.setText("Click to speak");
-                    //keyboard.setVisibility(VISIBLE);
+                    keyboard.setVisibility(VISIBLE);
+                    focus = true;
                 }
                 viewPropertyAnimator.scaleY(f).setDuration(150);
             }
@@ -193,17 +201,47 @@ public class SearchView extends FrameLayout {
                     viewPropertyAnimator = viewKeyboard.animate().z(0.0f).scaleX(1.0f);
                     String str = suggestions[(int) Math.floor(Math.random() * ((double) suggestions.length))];
                     textSwitcher.animate();
+                    textSwitcher.removeAllViews();
+                    textSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+                        @Override
+                        public View makeView() {
+                            TextView textView = new TextView(context);
+                            Typeface typeface = ResourcesCompat.getFont(context,R.font.google_sans);
+                            textView.setTypeface(typeface, Typeface.ITALIC);
+                            textView.setTypeface(typeface);
+                            textView.setTextColor(ContextCompat.getColor(getContext(), R.color.white_30));
+                            textView.setTextSize(18f);
+                            textView.setText(suggestions[(int) Math.floor(Math.random() * ((double) suggestions.length))]);
+                            return textView;
+                        }
+                    });
                     textSwitcher.setText(str);
                     if(!assistant.hasFocus()) {
                         keyboard.setVisibility(GONE);
                     }
+                    focus = false;
                 } else {
                     imageViewKeyboard.setImageDrawable(drawable2);
                     viewKeyboard.setVisibility(View.VISIBLE);
                     viewKeyboard.setImageDrawable(drawable3);
                     viewPropertyAnimator = viewKeyboard.animate().z(-2.0f).scaleX(zoom);
                     f = zoom;
+                    textSwitcher.removeAllViews();
+                    textSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+                        @Override
+                        public View makeView() {
+                            TextView textView = new TextView(context);
+                            Typeface typeface = ResourcesCompat.getFont(context,R.font.google_sans);
+                            textView.setTypeface(typeface);
+                            textView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 0));
+                            textView.setTextColor(ContextCompat.getColor(getContext(), R.color.white_90));
+                            textView.setTextSize(18f);
+                            textView.setText(suggestions[(int) Math.floor(Math.random() * ((double) suggestions.length))]);
+                            return textView;
+                        }
+                    });
                     textSwitcher.setText("Click to type");
+                    focus = true;
                 }
                 viewPropertyAnimator.scaleY(f).setDuration(150);
             }
@@ -214,6 +252,7 @@ public class SearchView extends FrameLayout {
             @Override
             public void onClick(View view) {
                 Log.i("SearchView", "clicked");
+                Toast.makeText(context, "Feature Coming soon!", Toast.LENGTH_SHORT).show();
 //                Intent launchIntent = null;
 //                try{
 //                    launchIntent = getContext().getPackageManager().getLaunchIntentForPackage("com.google.android.katniss").setClassName("com.google.android.katniss", ".search.KeyboardSearchActivity");
@@ -231,4 +270,70 @@ public class SearchView extends FrameLayout {
             }
         });
     }
+
+    private void startTextSwitcher() {
+        Timer timer = new Timer();
+        TimerTask doAsynchronousTask;
+        if( init == 1) {
+            textSwitcher.removeAllViews();
+            textSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+                @Override
+                public View makeView() {
+                    TextView textView = new TextView(context);
+                    Typeface typeface = ResourcesCompat.getFont(context,R.font.google_sans);
+                    textView.setTypeface(typeface, Typeface.ITALIC);
+                    textView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 0));
+                    textView.setTextColor(ContextCompat.getColor(getContext(), R.color.white_30));
+                    textView.setTextSize(18f);
+                    textView.setText(suggestions[(int) Math.floor(Math.random() * ((double) suggestions.length))]);
+                    return textView;
+                }
+            });
+            textSwitcher.setText("Search movies, TV, and more");
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    init++;
+                    startTextSwitcher();
+                }
+            }, 20000);
+        } else {
+            doAsynchronousTask = new TimerTask() {
+                @Override
+                public void run() {
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        public void run() {
+                            try {
+                                if (!focus) {
+                                    textSwitcher.removeAllViews();
+                                    textSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+                                        @Override
+                                        public View makeView() {
+                                            TextView textView = new TextView(context);
+                                            Typeface typeface = ResourcesCompat.getFont(context,R.font.google_sans);
+                                            textView.setTypeface(typeface, Typeface.ITALIC);
+                                            textView.setTypeface(typeface);
+                                            textView.setTextColor(ContextCompat.getColor(getContext(), R.color.white_30));
+                                            textView.setTextSize(18f);
+                                            textView.setText(suggestions[(int) Math.floor(Math.random() * ((double) suggestions.length))]);
+                                            return textView;
+                                        }
+                                    });
+                                    String str = suggestions[(int) Math.floor(Math.random() * ((double) suggestions.length))];
+                                    textSwitcher.animate();
+                                    textSwitcher.setText(str);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            };
+            timer.schedule(doAsynchronousTask, 0, 10000);
+        }
+    }
+
 }

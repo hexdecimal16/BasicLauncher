@@ -14,9 +14,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
@@ -33,6 +36,8 @@ public class InstalledAppsAdapter extends RecyclerView.Adapter<InstalledAppsAdap
 
     public Context mContext;
     private List<String> mDataSet;
+    private int dragDirs;
+    private int swipeDirs;
 
     public InstalledAppsAdapter(Context context, ArrayList<String> arrayList) {
         arrayList.removeAll(Collections.singleton((Object) null));
@@ -46,7 +51,7 @@ public class InstalledAppsAdapter extends RecyclerView.Adapter<InstalledAppsAdap
         return new AppsViewHolder(LayoutInflater.from(this.mContext).inflate(R.layout.icon, viewGroup, false));
     }
 
-    public void onBindViewHolder(@NotNull AppsViewHolder appsViewHolder, int i) {
+    public void onBindViewHolder(@NotNull final AppsViewHolder appsViewHolder, int i) {
         final AppsManager appsManager = new AppsManager(this.mContext);
         final String str = this.mDataSet.get(i);
         if (str != null) {
@@ -59,7 +64,6 @@ public class InstalledAppsAdapter extends RecyclerView.Adapter<InstalledAppsAdap
             if (vibrantSwatch != null) {
                 vibrantSwatch.getRgb();
             }
-            Log.d("this is my color", String.valueOf(-16776961));
             appsViewHolder.mTextViewLabel.setText(applicationLabelByPackageName);
             Glide.with(this.mContext)
                     .load(appIconByPackageName)
@@ -77,6 +81,13 @@ public class InstalledAppsAdapter extends RecyclerView.Adapter<InstalledAppsAdap
                     }
                     Context access$000 = InstalledAppsAdapter.this.mContext;
                     Toast.makeText(access$000, str + " Launch Error.", 0).show();
+                }
+            });
+            appsViewHolder.mCardView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    Log.d("InstalledAppsAdapter", "onLongClick");
+                    return true;
                 }
             });
             appsViewHolder.mCardView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -118,5 +129,36 @@ public class InstalledAppsAdapter extends RecyclerView.Adapter<InstalledAppsAdap
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
         return createBitmap;
+    }
+
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(dragDirs, swipeDirs) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+        }
+    };
+
+
+    public void moveChannel(int from, int to) {
+        int offset = 1;
+        if (from >= 0 && from <= mDataSet.size() - 1 && to >= 0 && to <= mDataSet.size() - 1) {
+            String fromItem = mDataSet.get(from);
+            mDataSet.add(from, mDataSet.get(to));
+            mDataSet.add(to, fromItem);
+            notifyItemMoved(from, to);
+
+            int positionDifference = to - from;
+            if (Math.abs(positionDifference) > 1) {
+                if (positionDifference > 0) {
+                    offset = -1;
+                }
+                notifyItemMoved(to + offset, from);
+            }
+        }
     }
 }

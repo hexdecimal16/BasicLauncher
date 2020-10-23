@@ -115,7 +115,7 @@
                         app:layout_constraintTop_toTopOf="@+id/cardViewRowIcon" />
 
                 </com.basic.android.basiclauncher.view.LinearZoomNew>
-                <androidx.recyclerview.widget.RecyclerView
+                <com.basic.android.basiclauncher.widgets.EditableRecyclerView
                     android:id="@+id/recyler_view_apps"
                     android:focusable="true"
                     android:clipToPadding = "false"

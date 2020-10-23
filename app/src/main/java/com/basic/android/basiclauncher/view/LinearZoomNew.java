@@ -36,9 +36,6 @@ public class LinearZoomNew extends ConstraintLayout {
         imageView = findViewById(R.id.cardViewRowIcon);
         bottom = findViewById(R.id.textViewBottom);
         end = findViewById(R.id.textViewEnd);
-        Drawable drawable = this.getBackground();
-        setBackground(null);
-        imageView.setBackground(drawable);
     }
 
     public void onFocusChanged(boolean z, int i, Rect rect) {

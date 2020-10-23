@@ -36,9 +36,6 @@ public class LinearZoomFavorite extends ConstraintLayout {
         imageView = findViewById(R.id.cardViewRowIconFavorite);
         bottom = findViewById(R.id.textViewBottomFavorite);
         end = findViewById(R.id.textViewEndFavorite);
-        Drawable drawable = this.getBackground();
-        setBackground(null);
-        imageView.setBackground(drawable);
     }
 
     public void onFocusChanged(boolean z, int i, Rect rect) {

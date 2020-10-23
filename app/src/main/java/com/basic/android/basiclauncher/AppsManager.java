@@ -1,6 +1,7 @@
 package com.basic.android.basiclauncher;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -20,6 +21,7 @@ public class AppsManager {
         this.mContext = context;
     }
 
+    @SuppressLint("WrongConstant")
     public ArrayList<String> getInstalledPackages() {
         Intent intent = new Intent("android.intent.action.MAIN", (Uri) null);
         Intent intent2 = new Intent("android.intent.action.MAIN", (Uri) null);

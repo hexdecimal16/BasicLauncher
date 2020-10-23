@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="numbers_large">
+        <item name="android:fontFamily">@font/google_sans</item>
+        <item name="fontFamily">@font/google_sans</item>
+        <item name="android:weightSum">10</item>
+    </style>
     <style name="AppBannerTitle">
         <item name="android:textSize">@dimen/app_banner_title_text_size</item>
         <item name="android:textColor">@color/reference_white_60</item>

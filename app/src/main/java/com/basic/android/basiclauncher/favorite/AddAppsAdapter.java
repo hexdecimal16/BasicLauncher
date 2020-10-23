@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -37,6 +38,7 @@ public class AddAppsAdapter extends RecyclerView.Adapter<AddAppsAdapter.AppsView
     /* access modifiers changed from: private */
     public Context mContext;
     private ArrayList<String> mDataSet;
+    private String TAG = "AddAppsAdapter";
 
     public AddAppsAdapter(Context context, ArrayList<String> arrayList) {
         this.mContext = context;
@@ -119,7 +121,5 @@ public class AddAppsAdapter extends RecyclerView.Adapter<AddAppsAdapter.AppsView
         drawable.draw(canvas);
         return createBitmap;
     }
-
-
 
 }
